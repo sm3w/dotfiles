@@ -179,7 +179,7 @@ set statusline+=\ [%b][0x%B]\               " ASCII and byte code under cursor
 set guioptions-=T
 
 " disable Background Color Erase (BCE) so that color schemes
-" render properly when inside 257-color tmux and GNU screen.
+" render properly when inside 256-color tmux and GNU screen.
 if &term =~ '256color'
     set t_ut=
     endif
