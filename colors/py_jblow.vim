@@ -36,8 +36,7 @@ let g:colors_name="py_jblow"
 
 set background=dark
 hi Normal guifg=#cba7a6 guibg=#222222
-"hi Normal guifg=#cba799     guibg=#222222
-"hi WildMenu
+hi WildMenu  guifg=#000000 guibg=#ffff80 
 "hi Menu
 "hi Scrollbar
 "hi Tooltip
@@ -60,12 +59,12 @@ hi PreProc guifg=#D86060 cterm=NONE
 hi Type guifg=#99e699 cterm=NONE 
 hi cSpecial guifg=#bc8f8f cterm=NONE 
 hi Special guifg=#bc8f8f cterm=NONE 
-"hi String guifg=#D86060 
-hi String guifg=#fcc7c7
-hi Cursor guifg=#efefef guibg=#efefef
+"hi String guifg=#fcc7c7
+hi String guifg=#94b8af
+"hi Cursor guifg=#efefef guibg=#efefef
 " Black on yellow for search
-hi incSearch guibg=#000000 guifg=#ffff99
-hi Search guifg=#000000 guibg=#ffff99
+hi incSearch guibg=#000000 guifg=#99ffb3
+hi Search guifg=#000000 guibg=#99ffb3
 "hi Search  guibg=#555555 guifg=#ffff99
 
 hi VertSplit guibg=#cfcfcf ctermfg=0 guifg=#222222 ctermbg=8
@@ -138,3 +137,9 @@ hi Folded guibg=gray15 guifg=Yellow1
     call <SID>DOHI("qfWarning", "FFFF33", "222222", "bold")
     call <SID>DOHI("qfNote", "2EB82E", "222222", "bold")
     call <SID>DOHI("qffunction", "ffc0cb", "222222", "bold")
+highlight Cursor guifg=black guibg=black
+highlight iCursor guifg=white guibg=steelblue
+set guicursor=n-v-c:block-Cursor
+set guicursor+=i:ver100-iCursor
+set guicursor+=n-v-c:blinkon0
+set guicursor+=i:blinkwait10
