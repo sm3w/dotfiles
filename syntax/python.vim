@@ -549,8 +549,14 @@ if s:Enabled("g:python_highlight_exceptions")
   syn keyword pythonExClass	ImportWarning UnicodeWarning
 endif
 
-if s:Enabled("g:python_slow_sync")
-  syn sync minlines=2000
+" HACK HACK HACK HACK "
+" We invert this check as we want to force slow sync without bothering to
+" enable the option seperately - we always want slow sync as without it,  large
+" regions of some *.py files that contain triple quoted strings become broken. See next
+" comment below for details  - JBrowning 20/02/18
+"
+if !s:Enabled("g:python_slow_sync")
+  syn sync minlines=50
 else
   " This is fast but code inside triple quoted strings screws it up. It
   " is impossible to fix because the only way to know if you are inside a

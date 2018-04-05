@@ -35,7 +35,11 @@ endif
 let g:colors_name="py_jblow"
 
 set background=dark
-hi Normal guifg=#cba7a6 guibg=#222222
+"hi Normal guifg=#cba7a6 guibg=#222222
+"hi Normal guifg=#d4b68d guibg=#042327
+"hi Normal guifg=#dbc6ab guibg=#042327
+"hi Normal guifg=#d1bfa9 guibg=#222222
+hi Normal guifg=#ddc3aa guibg=#222222
 hi WildMenu  guifg=#000000 guibg=#ffff80 
 "hi Menu
 "hi Scrollbar
@@ -51,20 +55,24 @@ hi Constant guifg=#99ffff cterm=NONE
 hi Identifier guifg=#80ffff
 
 " If else switch case, typedef, static etc yellow
-hi Typedef guifg=#fff696
+"hi Typedef guifg=#fff696
+hi Typedef guifg=#fffd8e
 hi Statement guifg=#ffffff
-hi StorageClass guifg=#fff696
+hi StorageClass guifg=#ffffff
 
 hi PreProc guifg=#D86060 cterm=NONE
-hi Type guifg=#99e699 cterm=NONE 
+"hi Type guifg=#99e699 cterm=NONE 
+hi Type guifg=#c3f78f cterm=NONE 
+hi Type guifg=#a9d6a9 term=NONE 
 hi cSpecial guifg=#bc8f8f cterm=NONE 
 hi Special guifg=#bc8f8f cterm=NONE 
 "hi String guifg=#fcc7c7
 hi String guifg=#94b8af
 "hi Cursor guifg=#efefef guibg=#efefef
+
 " Black on yellow for search
-hi incSearch guibg=#000000 guifg=#99ffb3
-hi Search guifg=#000000 guibg=#99ffb3
+hi incSearch guibg=#000000 guifg=#f7ad4c
+hi Search guifg=#000000 guibg=#f7ad4c
 "hi Search  guibg=#555555 guifg=#ffff99
 
 hi VertSplit guibg=#cfcfcf ctermfg=0 guifg=#222222 ctermbg=8
@@ -73,7 +81,8 @@ hi ColorColumn guibg=#440000
 
 " python
 hi Function guifg=#C0EEC0 cterm=NONE 
-hi Include guifg=#C0EEC0 cterm=NONE 
+"hi Include guifg=#C0EEC0 cterm=NONE 
+"hi Include guifg=#C0EEC0 cterm=NONE 
 hi Boolean guifg=#99ffff cterm=NONE 
 hi Structure guifg=#ffffff cterm=NONE 
 
@@ -108,6 +117,7 @@ endfunction
 
 " Set any areas of non-text to same bg colour as theme
 hi NonText guibg=#222222 ctermbg=none
+"hi NonText guibg=#042327 ctermbg=none
 
 " @Check
 hi Visual guifg=#FFFFFF guibg=gray30
@@ -133,10 +143,12 @@ hi Folded guibg=gray15 guifg=Yellow1
     call <SID>DOHI("YcmErrorSign", "FFFFFF", "800000", "") " Red
 
     "QF colors
-    call <SID>DOHI("qfError", "ee0000", "222222", "bold")
-    call <SID>DOHI("qfWarning", "FFFF33", "222222", "bold")
-    call <SID>DOHI("qfNote", "2EB82E", "222222", "bold")
-    call <SID>DOHI("qffunction", "ffc0cb", "222222", "bold")
+    call <SID>DOHI("qfError", "ff5f5f", "222222", "bold")
+    "call <SID>DOHI("qfError", "ee0000", "222222", "bold")
+    call <SID>DOHI("qfWarning", "FFFF99", "222222", "bold")
+    call <SID>DOHI("qfNote", "7dff60", "222222", "bold")
+    "call <SID>DOHI("qffunction", "ffc0cb", "222222", "bold")
+    call <SID>DOHI("qffunction", "ffffff", "222222", "bold")
 highlight Cursor guifg=black guibg=black
 highlight iCursor guifg=white guibg=steelblue
 set guicursor=n-v-c:block-Cursor

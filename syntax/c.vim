@@ -28,8 +28,8 @@ syn keyword cImportant  IMPORTANT
 syn keyword	cType u64 s64 u32 s32 u8 s8 u16 s16 bool32
 "syn keyword	cType u64 s64 u32 s32 u8 s8 u16 s16
 
-" Real numbers
-syn keyword cType r32 r64
+" Floating point numbers
+syn keyword cType f32 f64
 
 syn keyword cppOperator		operator typeid
 " It's easy to accidentally add a space after a backslash that was intended

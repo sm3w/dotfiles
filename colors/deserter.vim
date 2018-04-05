@@ -63,8 +63,8 @@ hi Special guifg=#bc8f8f cterm=NONE
 hi String guifg=#c69f9f
 hi Cursor guifg=#efefef guibg=#efefef
 " Black on yellow for search
-hi incSearch guibg=#000000 guifg=#ffff99
-hi Search guifg=#000000 guibg=#ffff99
+hi incSearch guibg=#000000 guifg=#99ffb3
+hi Search guifg=#000000 guibg=#99ffb3
 "hi Search  guibg=#555555 guifg=#ffff99
 
 hi VertSplit guibg=#cfcfcf ctermfg=0 guifg=#222222 ctermbg=8
