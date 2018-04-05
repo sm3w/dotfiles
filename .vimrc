@@ -6,7 +6,6 @@
 " ============================================
 
 set shell=/bin/bash
-
 " set Vim-specific sequences for RGB colors (fixes issues in tmux)
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -15,10 +14,10 @@ set nofoldenable
 set termguicolors
 " Set colorscheme and enable trueolor
 if exists('$TMUX')
-    colorscheme deserter
+    colorscheme py_jblow  
 else
     set termguicolors
-    colorscheme deserter
+    colorscheme py_jblow  
 " Disable folding
 endif
 
@@ -36,7 +35,7 @@ set laststatus=2
 "let g:agformat="%f:%l:%m"
 "Automatic reloading of .vimrc
 
-set autoread
+"set autoread
 " Show which mode we are in? Dont know
 "set showmode
 
@@ -76,10 +75,10 @@ noremap <C-Z> :update<CR>
 vnoremap <C-Z> <C-C>:update<CR>
 inoremap <C-Z> <C-O>:update<CR>
 
-" Save and make command - calls out too gcc on current source file
+" Save and make command - calls out to gcc on current source file
 noremap <S-C-M> :wa<CR>  :call SaveAndMake()<CR><CR> <CR>
 
-" We should not be using arrow keys to move around vim!
+" We should not be using arrow keys to navigate in vim!
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
@@ -169,12 +168,13 @@ set statusline+=%y      "filetype
 set statusline+=%h      "help file flag
 set statusline+=%m      "modified flag
 set statusline+=%r      "read only flag
+set statusline+=\ %{fugitive#statusline()}   " sets [branch->{branch}] if in a git repo   
 
 set statusline+=\ %=                        " align left
 set statusline+=Line:%l/%L[%p%%]            " line X of Y [percent of file]
 set statusline+=\ Col:%c                    " current column
 set statusline+=\ Buf:%n                    " Buffer number
-set statusline+=\ Chr:[%{VisualSelectionSize()}]
+set statusline+=\ Chr:[%{VisualSelectionSize()}] "Number of characters in current visual selection
 set statusline+=\ [%b][0x%B]\               " ASCII and byte code under cursor
 set guioptions-=T
 
@@ -245,14 +245,18 @@ augroup project
     autocmd!
         autocmd BufRead,BufNewFile *.h,*.c set filetype=c 
         autocmd BufRead,BufNewFile *.h,*.cpp set filetype=cpp
-        autocmd BufRead,BufNewFile,Bufwrite,bufwritepost,insertleave *.h,*.c,*.cpp set colorcolumn=0
+        autocmd BufRead,BufNewFile *.qf set filetype=qf
+        autocmd BufRead,BufNewFile,Bufwrite,bufwritepost,insertleave *.h,*.c,*.cpp  set colorcolumn=0 
+        autocmd BufRead,BufNewFile,Bufwrite,bufwritepost,insertleave *.h,*.c,*.cpp colorscheme py_jblow 
         autocmd BufNewFile,BufRead,BufEnter *.py colorscheme py_jblow
+        autocmd BufNewFile,BufRead,BufEnter,bufwritepost,insertleave *.vimrc colorscheme py_jblow
     augroup END
 set cmdheight=2
 "set makeprg='/home/jamie/coding/c/sdl/compile'
-"set makeprg='/home/jamie/coding/projects/game/compile_shared'
-"set makeprg='/home/jamie/coding/qt/dia/Makefile'
-set makeprg=[[\ -f\ Makefile\ ]]\ &&\ make
+"set makeprg='/home/jamie/coding/c++/cpu/MAKEFILE'
+"set makeprg='MAKEFILE'
+set makeprg='\./_makefile.sh'
+"set makeprg=[[\ -f\ Makefile\ ]]\ &&\ make
 " Clang Complete Settings
 let g:clang_use_library=1
 "" if there's an error, allow us to see it
@@ -293,10 +297,10 @@ nnoremap <C-n> :bn <cr>
 
 function! SaveAndMake()
     if (&modified == 1)
-        silent make | copen
+        silent make | copem 
         redraw!
     else 
-        silent make | copen 
+        silent make | copen
         redraw!
     endif
     " This rather interesting code, makes our quickfix window ALWAYS appear as
@@ -327,6 +331,7 @@ endfunction
 "set errorformat=%f%l%v
 "set errorformat=%*[^\"]\"%f\"%*\\D%l:\ %m,\"%f\"%*\\D%l:\%m,%-G%f:%l:
 set errorformat=%*[^\"]\"%f\"%*\\D%l:\ %m,\"%f\"%*\\D%l:\ %m,%-G%f:%l:\ Each\ undeclared\ identifier\ is\ reported\ only\ once,%-G%f:%l:\ for\ each\ function\ it\ appears\ in,%-GIn\ file\ included\ from\ %f:%l:%c:,%-GIn\ file\ included\ from\ %f:%l:%c,%-GIn\ file\ included\ from\ %f:%l,%-Gfrom\ %f:%l:%c,%-Gfrom\ %f:%l,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,\"%f\"\\,\ line\ %l%*\\D%c%*[^\ ]\ %m,%D%*\\a[%*\\d]:\ Entering\ directory\ `%f',%X%*\\a[%*\\d]:\ Leaving\ directory\ `%f',%D%*\\a:\ Entering\ directory\ `%f',%X%*\\a:\ Leaving\ directory\ `%f',%DMaking\ %*\\a\ in\ %f,%f\|%l\|\ %m
+"set efm=%f:%l:\ %\\%%(undefined\ reference%\\\|multiple\ definitions%\\)%\\@=%m
 
 " This extra errorformat string prevents vim from opening a new blank buffer
 " when it treats 'in file included from' string as a filename for some unknown
@@ -343,7 +348,60 @@ autocmd bufreadpost quickfix call Unsetcol()
 " Keep window split on buffer close
 command! Bd bp\|bd \#
 
-xnoremap <leader>s c()<Esc>P
+" Surround visually selected text in parentheses
+"xnoremap <leader>s c()<Esc>P
+"noremap <leader>s( c()<Esc>P 
+"noremap <leader>s< c<><Esc>P 
+"noremap <leader>s" c""<Esc>P 
+"noremap <leader>s[ c[]<Esc>P 
+"noremap <leader>s{ c{}<Esc>P 
+noremap <leader>s" dt<Space>i""<Esc>P 
+noremap <leader>s( dt<Space>i()<Esc>P 
 
 " Enable full python syntax highlighting
 let g:python_highlight_all=1
+
+" The terminal controls the cursor colour, so we need to specifically set it
+" here and then change it back to default when we exit vim.
+"
+
+" use an orange cursor in insert mode
+"let &t_SI = "\<Esc>]12;white\x7"
+" use a red cursor otherwise
+"let &t_EI = "\<Esc>]12;white\x7"
+"silent !echo -ne "\033]12;white\007"
+
+"
+"silent !echo -ne  "\<Esc>]38;2;255;100;0m\x7"
+" reset cursor when vim exits
+"autocmd VimLeave * silent !echo -ne "\033]112\007"
+" use \003]12;gray\007 for gnome-terminal
+"endif
+" TESTING TESTING TESTING
+"if &term =~ "xterm\\|rxvt"
+"let &t_SI = "\<Esc>[38;2;255;236;255m"
+"let &t_EI = "\<Esc>[38;2;255;236;255m"
+""silent !echo -ne "\x1b[38;2;255;255;255m" 
+"endif
+
+"if &term =~ "xterm"
+"let &t_SI = "\Esc>]12;white\x7"
+"let &t_SR = "\<Esc>]12;white\x7"
+"let &t_EI = "\<Esc>]12;white\x7"
+"silent !echo -ne "\033]12;white\007"
+"endif
+function! SwitchSourceHeader()
+    if (expand ("%:e") == "cpp") 
+        find %:t:r.h
+        if(winnr('$') == 2)
+        exe 2 . "wincmd w"
+        wincmd L
+    if (expand ("%:e") == "c") 
+        find %:t:r.h
+    else
+        find %:t:r.cpp
+    endif
+    endif
+    endif
+endfunction 
+nmap ,s :call SwitchSourceHeader()<CR>
