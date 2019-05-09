@@ -20,10 +20,13 @@ else
   unlet b:current_syntax
 endif
 
+" 
 " C++ extensions
-syn keyword cppStatement	new delete this friend using
+" NOTE(jamie): Added 'it'
+syn keyword cppStatement	new delete this friend using it
 syn keyword cppAccess		public protected private
-syn keyword cppType		inline virtual explicit export bool wchar_t
+syn keyword cppType		bool wchar_t
+syn keyword cppCustom           inline virtual explicit export 
 syn keyword cppExceptions	throw try catch
 syn keyword cppOperator		operator typeid
 syn keyword cppOperator		and bitor or xor compl bitand and_eq or_eq xor_eq not not_eq
@@ -62,6 +65,7 @@ if version >= 508 || !exists("did_cpp_syntax_inits")
   HiLink cppStructure		Structure
   HiLink cppBoolean		Boolean
   HiLink cppConstant		Constant
+  HiLink cppCustom 	        cppStatement	
   delcommand HiLink
 endif
 

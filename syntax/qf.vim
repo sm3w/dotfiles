@@ -3,36 +3,28 @@
 " Maintainer:	Bram Moolenaar <Bram@vim.org>
 " Last change:	2001 Jan 15
 
-" Quit when a syntax file was already loaded
-if exists("b:current_syntax")
-  finish
-endif
+"" Quit when a syntax file was already loaded
+"if exists("b:current_syntax")
+"  finish
+"endif
 
-
-" A bunch of useful C keywords
-hi qfFileName guifg=#ffffff
-hi qfFunction guifg=#ffffff
-hi qfNormal guifg=#ffffff
-"hi qfError    guifg=#ff5f5f
 syn match	qfNormal        ":.*"
 syn match	qfFileName	"^[^|]*" nextgroup=qfSeparator
 syn match	qfSeparator	"|" nextgroup=qfLineNr contained
 syn match	qfError		"error" contained
 syn match	qfFunction "\vIn\ function.*$"
 
-" The default highlighting.
-"hi def link qfFileName	Directory
-hi qfLineNr guifg=#dddddd 
-"syn match	qfLineNr	"[^|]*" contained contains=qfError
-hi def link qfError	Error
-"syn keyword qfFunction  function
-syn keyword qfWarning warning 
-syn keyword qfNote  note 
-syn keyword qfNote  finished 
-syn keyword qfError error
-syn keyword qfError failed 
-syn keyword qfNote  succeeded 
+" Override the defaults to make qf more readable
+hi qfFileName guifg=#96b38a ctermfg=green
+hi qfNormal   guifg=#ffffff ctermfg=white
+hi qfLineNr   guifg=#dddddd ctermfg=grey
+hi qfGreen    guifg=#7dff60 ctermfg=green
+hi qfRed      guifg=#ff5f5f ctermfg=red
+hi qfYellow   guifg=#e7f98b ctermfg=yellow
 
+syn keyword qfGreen    succeeded finished note 
+syn keyword qfYellow   warning 
+syn keyword qfRed      error failed 
 
 "let b:current_syntax = "qf"
 

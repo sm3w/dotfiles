@@ -17,7 +17,7 @@ let s:ft = matchstr(&ft, '^\([^.]\)\+')
 syn keyword	cStatement	goto break return continue asm
 syn keyword	cLabel		case default
 syn keyword	cConditional	if else switch
-syn keyword	cRepeat		while for do
+syn keyword	cRepeat		while for do For
 
 syn keyword	cTodo		contained TODO FIXME XXX 
 syn keyword cNote       NOTE
