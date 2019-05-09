@@ -8,16 +8,16 @@
 
 " Supporting code -------------------------------------------------------------
 " Initialisation: {{{
-function! InsertStatuslineColor(mode)
-  if a:mode == 'i'
-    hi statusline guibg=#111111 ctermfg=119 guifg=#89e894 ctermbg=0
-  elseif a:mode == 'r'
-    hi statusline guibg=Purple ctermfg=5 guifg=Black ctermbg=0
-  else
-    hi statusline guibg=DarkRed ctermfg=1 guifg=Black ctermbg=0
-  endif
-endfunction
-
+"function! InsertStatuslineColor(mode)
+"  if a:mode == 'i'
+"    hi statusline guibg=#111111 ctermfg=119 guifg=#89e894 ctermbg=0
+"  elseif a:mode == 'r'
+"    hi statusline guibg=Purple ctermfg=5 guifg=Black ctermbg=0
+"  else
+"    hi statusline guibg=DarkRed ctermfg=1 guifg=Black ctermbg=0
+"  endif
+"endfunction
+"
 if version > 580
   hi clear
   if exists("syntax_on")
@@ -33,23 +33,41 @@ let s:is_dark=(&background == 'dark')
 " }}}
 " Palette: {{{
 
+" Modifiers and emphasis
+let s:none = ['NONE', 'NONE']
+let s:underline = 'underline,'
+let s:bold= 'bold,'
+"
 " setup palette dictionary
 let s:gb = {}
 
 " COLOUR_TABLE
 " fill it with absolute colors
-let s:gb.bg          = ['#111111', 235]     " 40-40-40
-let s:gb.text_normal = ['#a89786', 255]     " 253-244-193
+let s:gb.bg             = ['#151515', 235]     " 40-40-40
+let s:gb.text_normal    = ['#AFA895', 255]     " 253-244-193
+let s:gb.text_comment   = ['#888888', 255]     " 253-244-193
+let s:gb.text_strings   = ['#d09090', 255]     " 253-244-193
+let s:gb.types          = ['#ace8a7', 255]     " 253-244-193
+
+" Greys
+let s:gb.grey_darkest   = ['#222222', 235]     " 40-40-40
+let s:gb.grey_dark      = ['#888888', 235]     " 40-40-40
+let s:gb.grey_med       = ['#555555', 235]     " 40-40-40
+let s:gb.grey_light     = ['#dddddd', 235]     " 40-40-40
+
 
 " Colours used
 let s:gb.white          = ['#ffffff', 255]     " 175-58-3
-let s:gb.bright_red     = ['#fb4934', 167]     " 251-73-52
-let s:gb.bright_green   = ['#b8bb26', 142]     " 184-187-38
-let s:gb.bright_yellow  = ['#fabd2f', 214]     " 250-189-47
-let s:gb.bright_blue    = ['#83a598', 109]     " 131-165-152
-let s:gb.bright_purple  = ['#9beeff', 175]     " 211-134-155
-let s:gb.bright_aqua    = ['#c7e0c7', 108]     " 142-192-124
+let s:gb.pale_yellow    = ['#ffff99', 167]     " 251-73-52
+let s:gb.pale_pink      = ['#f4bce4', 167]     " 251-73-52
+let s:gb.pale_green     = ['#7eaf82', 142]     " 184-187-38
+let s:gb.pale_red       = ['#c68d8d', 214]     " 250-189-47
+let s:gb.bright_blue    = ['#affff0', 109]     " 131-165-152
+let s:gb.bright_cyan    = ['#72f5ff', 109]     " 131-165-152
+let s:gb.bright_red     = ['#ff0000', 175]     " 211-134-155
+let s:gb.bright_green   = ['#00ff00', 108]     " 142-192-124
 let s:gb.bright_orange  = ['#fe8019', 208]     " 254-128-25
+let s:gb.dark_green     = ['#96b38a', 142]     " 184-187-38
 
 let s:gb.neutral_red    = ['#cc241d', 124]     " 204-36-29
 let s:gb.neutral_green  = ['#98971a', 106]     " 152-151-26
@@ -97,23 +115,102 @@ function! s:HL(group, fg, ...)
         \ 'gui=' . emstr[:-2], 'cterm=' . emstr[:-2]
         \ ]
 
-  echo histring
   execute join(histring, ' ')
 endfunction
 
-"call s:HL('GruvboxRed', s:red)
-"call s:HL('GruvboxRedBold', s:red, s:none, s:bold)
-"call s:HL('GruvboxGreen', s:green)
-"
+
+" Group, guifg, guibg
+call s:HL('Normal', s:gb.text_normal, s:gb.bg)
+
+" Status and Cursor line setup 
+call s:HL('StatusLine', s:gb.white, s:gb.grey_darkest)
+call s:HL('StatusLineNC',s:gb.grey_dark, s:gb.bg)
+call s:HL('CursorLine', s:none, s:gb.grey_darkest)
+call s:HL('CursorLineNR',s:gb.grey_light, s:gb.grey_darkest)
+call s:HL('LineNR',s:gb.grey_med, s:gb.bg)
+
+call s:HL('Visual',s:gb.white, s:gb.grey_med)
+
+" Defaults
+call s:HL('WildMenu', s:gb.bg, s:gb.pale_yellow)
+call s:HL('Search', s:gb.pale_pink, s:gb.grey_med)
+call s:HL('IncSearch', s:gb.bg, s:gb.pale_pink)
+call s:HL('VertSplit', s:gb.grey_light, s:gb.bg)
+call s:HL('MatchParen', s:none, s:gb.grey_med)
+call s:HL('Type', s:gb.dark_green) 
+call s:HL('Constant', s:gb.bright_blue) 
+call s:HL('String', s:gb.dark_green) 
+call s:HL('Comment', s:gb.text_comment) 
+call s:HL('PreProc', s:gb.pale_red) 
+call s:HL('Todo', s:gb.bright_red, s:none, s:underline) 
+call s:HL('Note', s:gb.bright_green, s:none, s:underline) 
+call s:HL('Important', s:gb.pale_yellow, s:none, s:underline) 
+call s:HL('Identifier', s:gb.bright_blue) 
+call s:HL('Special', s:gb.pale_pink) 
+
+" Custom syntax highlighting groups
+call s:HL('FreshWhite', s:gb.white, s:none)
+call s:HL('FreshWhiteB', s:gb.white, s:none, s:bold)
+call s:HL('FreshPaleGreen', s:gb.pale_green, s:none)
+call s:HL('FreshYellow', s:gb.pale_yellow, s:none)
+call s:HL('FreshGreen ', s:gb.types, s:none)
+
+hi! link Statement   FreshWhite
+hi! link Conditional FreshWhite
+hi! link Keyword     FreshWhite
+
+" -------- C / C++ specific ----------- "
+hi! link cOperator     FreshWhite
+hi! link cStructure    FreshWhite 
+hi! link cppStructure  FreshWhite 
+hi! link cStorageClass FreshWhite 
+hi! link cType         FreshYellow
+hi! link cStatement    FreshWhite
+
+" --------- html/css Specific ------------ "
+
+hi htmlTag           guifg=#8e7f57
+hi htmlTagName       guifg=#8e7f57
+hi htmlEndTag        guifg=#a7925a
+hi htmlString        guifg=#96b38a
+hi htmlArg           guifg=#efe0a2
+hi htmlStatement     guifg=#a9bca9
+hi htmlValue         guifg=#ff0000 
+hi htmlAssign        guifg=#ffffff
+hi htmlLink          guifg=#ffffff 
+hi cssBraces         guifg=#738273
+hi cssTagName        guifg=#ddf8dd
+hi cssAttr           guifg=#e7f98b
+hi cssProp           guifg=#869886
+hi cssValueLength    guifg=#e7f98b
+hi cssUnitDecorators guifg=#99a659
+hi cssAtRule         guifg=#ddf8dd
+hi Function          guifg=#e7f98b
+hi Title             guifg=#a8baa8         
+
+" --------- JS Specific ------------ "
+
+hi javaScriptIdentifier guifg=#ddca7e
+hi javaScriptFunction   guifg=#ddca7e
+hi javaScriptStringD    guifg=#96b38a
+hi javaScriptStringS    guifg=#96b38a
+hi javaScriptJQ         guifg=#ffd8f9
+hi javaScriptComment    guifg=#888888
 
 
-" Default status ;ine setting
-call s:HL('StatusLine', s:gb.white, s:gb.bg)
-call s:HL('CursorLineNR',s:gb.bg, s:gb.white)
-hi CursorLineNR gui=none guibg=#222222 guifg=#cccccc  ctermfg=250 ctermbg=111111
+" --------- JS Specific ------------ "
 
+
+
+" Control colour of the status line to indicate when we enter and leave insert
+" mode
 function! InsertStatuslineColor(mode)
   if a:mode == 'i'
-    call s:HL('StatusLine', s:gb.bg, s:gb.bright_green)
+    call s:HL('StatusLine',s:gb.bg, s:gb.pale_green)
   endif
 endfunction
+au InsertLeave * call s:HL('StatusLine', s:gb.white, s:gb.bg)
+
+
+" Manual settings
+hi NonText guibg=#111111 ctermbg=none

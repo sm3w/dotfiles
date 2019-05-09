@@ -8,6 +8,7 @@
 
 " Supporting code -------------------------------------------------------------
 " Initialisation: {{{
+
 function! InsertStatuslineColor(mode)
   if a:mode == 'i'
     hi statusline guibg=#111111 ctermfg=119 guifg=#89e894 ctermbg=0
@@ -94,10 +95,9 @@ let s:is_dark=(&background == 'dark')
 " setup palette dictionary
 let s:gb = {}
 
-" COLOUR_TABLE
 " fill it with absolute colors
 let s:gb.dark0_hard  = ['#1d2021', 234]     " 29-32-33
-let s:gb.dark0       = ['#111111', 235]     " 40-40-40
+let s:gb.dark0       = ['#222222', 235]     " 40-40-40
 let s:gb.dark0_soft  = ['#32302f', 236]     " 50-48-47
 let s:gb.dark1       = ['#3c3836', 237]     " 60-56-54
 let s:gb.dark2       = ['#504945', 239]     " 80-73-69
@@ -109,22 +109,20 @@ let s:gb.gray_245    = ['#928374', 245]     " 146-131-116
 let s:gb.gray_244    = ['#928374', 244]     " 146-131-116
 
 let s:gb.light0_hard = ['#f9f5d7', 230]     " 249-245-215
-"let s:gb.light0      = ['#fbf1c7', 229]     " 253-244-193
-let s:gb.light0      = ['#a89786', 255]     " 253-244-193
+let s:gb.light0      = ['#fbf1c7', 229]     " 253-244-193
 let s:gb.light0_soft = ['#f2e5bc', 228]     " 242-229-188
 let s:gb.light1      = ['#ebdbb2', 223]     " 235-219-178
 let s:gb.light2      = ['#d5c4a1', 250]     " 213-196-161
 let s:gb.light3      = ['#bdae93', 248]     " 189-174-147
-let s:gb.light4      = ['#bfab97', 246]     " 168-153-132
+let s:gb.light4      = ['#a89984', 246]     " 168-153-132
 let s:gb.light4_256  = ['#a89984', 246]     " 168-153-132
-" Colours used
-let s:gb.bold_white     = ['#ffffff', 255]     " 175-58-3
+
 let s:gb.bright_red     = ['#fb4934', 167]     " 251-73-52
 let s:gb.bright_green   = ['#b8bb26', 142]     " 184-187-38
 let s:gb.bright_yellow  = ['#fabd2f', 214]     " 250-189-47
 let s:gb.bright_blue    = ['#83a598', 109]     " 131-165-152
-let s:gb.bright_purple  = ['#9beeff', 175]     " 211-134-155
-let s:gb.bright_aqua    = ['#c7e0c7', 108]     " 142-192-124
+let s:gb.bright_purple  = ['#d3869b', 175]     " 211-134-155
+let s:gb.bright_aqua    = ['#8ec07c', 108]     " 142-192-124
 let s:gb.bright_orange  = ['#fe8019', 208]     " 254-128-25
 
 let s:gb.neutral_red    = ['#cc241d', 124]     " 204-36-29
@@ -148,8 +146,7 @@ let s:gb.faded_orange   = ['#af3a03', 130]     " 175-58-3
 
 let s:bold = 'bold,'
 if g:gruvbox_bold == 0
-  g:g_gruvbox_bold=1
-  "let s:bold = ''
+  let s:bold = ''
 endif
 
 let s:italic = 'italic,'
@@ -178,15 +175,15 @@ endif
 let s:vim_bg = ['bg', 'bg']
 let s:vim_fg = ['fg', 'fg']
 let s:none = ['NONE', 'NONE']
-let s:bwhite = s:gb.bold_white
 
 " determine relative colors
 if s:is_dark
   let s:bg0  = s:gb.dark0
-"  if g:gruvbox_contrast_dark == 'soft'
-"    let s:bg0  = s:gb.dark0_soft
-"  elseif g:gruvbox_contrast_dark == 'hard'
-"    let s:bg0  = s:gb.dark0_hard
+  if g:gruvbox_contrast_dark == 'soft'
+    let s:bg0  = s:gb.dark0_soft
+  elseif g:gruvbox_contrast_dark == 'hard'
+    let s:bg0  = s:gb.dark0_hard
+  endif
 
   let s:bg1  = s:gb.dark1
   let s:bg2  = s:gb.dark2
@@ -210,9 +207,6 @@ if s:is_dark
   let s:purple = s:gb.bright_purple
   let s:aqua   = s:gb.bright_aqua
   let s:orange = s:gb.bright_orange
- " let s:gb.bold_white = s:bwhite
-
-" Else we're in light mode
 else
   let s:bg0  = s:gb.light0
   if g:gruvbox_contrast_light == 'soft'
@@ -245,7 +239,6 @@ else
   let s:orange = s:gb.faded_orange
 endif
 
-" TEST
 " reset to 16 colors fallback
 if g:gruvbox_termcolors == 16
   let s:bg0[1]    = 0
@@ -277,7 +270,6 @@ let s:gb.fg4 = s:fg4
 
 let s:gb.fg4_256 = s:fg4_256
 
-" write back to dict
 let s:gb.red    = s:red
 let s:gb.green  = s:green
 let s:gb.yellow = s:yellow
@@ -289,31 +281,31 @@ let s:gb.orange = s:orange
 " }}}
 " Setup Terminal Colors For Neovim: {{{
 
-"if has('nvim')
-"  let g:terminal_color_0 = s:bg0[0]
-"  let g:terminal_color_8 = s:gray[0]
-"
-"  let g:terminal_color_1 = s:gb.neutral_red[0]
-"  let g:terminal_color_9 = s:red[0]
-"
-"  let g:terminal_color_2 = s:gb.neutral_green[0]
-"  let g:terminal_color_10 = s:green[0]
-"
-"  let g:terminal_color_3 = s:gb.neutral_yellow[0]
-"  let g:terminal_color_11 = s:yellow[0]
-"
-"  let g:terminal_color_4 = s:gb.neutral_blue[0]
-"  let g:terminal_color_12 = s:blue[0]
-"
-"  let g:terminal_color_5 = s:gb.neutral_purple[0]
-"  let g:terminal_color_13 = s:purple[0]
-"
-"  let g:terminal_color_6 = s:gb.neutral_aqua[0]
-"  let g:terminal_color_14 = s:aqua[0]
-"
-"  let g:terminal_color_7 = s:fg4[0]
-"  let g:terminal_color_15 = s:fg1[0]
-"endif
+if has('nvim')
+  let g:terminal_color_0 = s:bg0[0]
+  let g:terminal_color_8 = s:gray[0]
+
+  let g:terminal_color_1 = s:gb.neutral_red[0]
+  let g:terminal_color_9 = s:red[0]
+
+  let g:terminal_color_2 = s:gb.neutral_green[0]
+  let g:terminal_color_10 = s:green[0]
+
+  let g:terminal_color_3 = s:gb.neutral_yellow[0]
+  let g:terminal_color_11 = s:yellow[0]
+
+  let g:terminal_color_4 = s:gb.neutral_blue[0]
+  let g:terminal_color_12 = s:blue[0]
+
+  let g:terminal_color_5 = s:gb.neutral_purple[0]
+  let g:terminal_color_13 = s:purple[0]
+
+  let g:terminal_color_6 = s:gb.neutral_aqua[0]
+  let g:terminal_color_14 = s:aqua[0]
+
+  let g:terminal_color_7 = s:fg4[0]
+  let g:terminal_color_15 = s:fg1[0]
+endif
 
 " }}}
 " Overload Setting: {{{
@@ -392,9 +384,6 @@ endif
 function! s:HL(group, fg, ...)
   " Arguments: group, guifg, guibg, gui, guisp
 
-  if a:group == "GruvboxWhiteBold"
-   " echo a:group
-  endif
   " foreground
   let fg = a:fg
 
@@ -429,6 +418,7 @@ function! s:HL(group, fg, ...)
         \ 'guibg=' . bg[0], 'ctermbg=' . bg[1],
         \ 'gui=' . emstr[:-2], 'cterm=' . emstr[:-2]
         \ ]
+
   " special
   if a:0 >= 3
     call add(histring, 'guisp=' . a:3[0])
@@ -474,8 +464,6 @@ call s:HL('GruvboxYellowSign', s:yellow, s:sign_column, s:invert_signs)
 call s:HL('GruvboxBlueSign', s:blue, s:sign_column, s:invert_signs)
 call s:HL('GruvboxPurpleSign', s:purple, s:sign_column, s:invert_signs)
 call s:HL('GruvboxAquaSign', s:aqua, s:sign_column, s:invert_signs)
-"call s:HL('GruvboxWhiteBold', s:bwhite, s:none, s:bold)
-call s:HL('GruvboxWhiteBold', s:bwhite)
 
 " }}}
 
@@ -483,16 +471,18 @@ call s:HL('GruvboxWhiteBold', s:bwhite)
 " General UI: {{{
 
 " Normal text
-call s:HL('Normal', s:fg0, s:bg0)
+call s:HL('Normal', s:fg1, s:bg0)
 
 " Correct background (see issue #7):
 " --- Problem with changing between dark and light on 256 color terminal
 " --- https://github.com/morhetz/gruvbox/issues/7
-if s:is_dark
-  set background=dark
-else
-  set background=light
-endif
+
+set background=dark
+"if s:is_dark
+"  set background=dark
+"else
+"  set background=light
+"endif
 
 if version >= 700
   " Screen line that the cursor is
@@ -593,26 +583,25 @@ if g:gruvbox_improved_strings == 0
 else
   call s:HL('Special', s:orange, s:bg1, s:italicize_strings)
 endif
+
 call s:HL('Comment', s:gray, s:none, s:italicize_comments)
 call s:HL('Todo', s:vim_fg, s:vim_bg, s:bold . s:italic)
 call s:HL('Error', s:red, s:vim_bg, s:bold . s:inverse)
 
-
 " Generic statement
-hi! link Statement GruvboxAqua
-"" if, then, else, endif, switch, etc.
-hi! link Conditional GruvboxWhiteBold
-"" for, do, while, etc.
-hi! link Repeat GruvboxWhiteBold
-"" case, default, etc.
-"hi! link Label GruvboxNormalBold
-"" try, catch, throw
-"hi! link Exception GruvboxNormalBold
-"" sizeof, "+", "*", etc.
-"hi! link Operator Normal
-"" Any other keyword
-"hi! link Keyword GruvboxRed
-"
+hi! link Statement GruvboxRed
+" if, then, else, endif, swicth, etc.
+hi! link Conditional GruvboxRed
+" for, do, while, etc.
+hi! link Repeat GruvboxRed
+" case, default, etc.
+hi! link Label GruvboxRed
+" try, catch, throw
+hi! link Exception GruvboxRed
+" sizeof, "+", "*", etc.
+hi! link Operator Normal
+" Any other keyword
+hi! link Keyword GruvboxRed
 
 " Variable name
 hi! link Identifier GruvboxBlue
@@ -636,7 +625,7 @@ hi! link Constant GruvboxPurple
 hi! link Character GruvboxPurple
 " String constant: "this is a string"
 if g:gruvbox_improved_strings == 0
-  call s:HL('String',  s:, s:none, s:italicize_strings)
+  call s:HL('String',  s:green, s:none, s:italicize_strings)
 else
   call s:HL('String',  s:fg1, s:bg1, s:italicize_strings)
 endif
@@ -654,7 +643,7 @@ hi! link StorageClass GruvboxOrange
 " struct, union, enum, etc.
 hi! link Structure GruvboxAqua
 " typedef
-hi! link Typedef GruvboxRed
+hi! link Typedef GruvboxYellow
 
 " }}}
 " Completion Menu: {{{
@@ -1023,9 +1012,6 @@ hi! link clojureUnquote GruvboxYellow
 
 hi! link cOperator GruvboxPurple
 hi! link cStructure GruvboxOrange
-hi! link cType GruvboxAqua
-hi! link cStatement GruvboxWhiteBold
-hi! link cStorageClass GruvboxWhiteBold
 
 " }}}
 " Python: {{{
