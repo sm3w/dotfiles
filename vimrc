@@ -448,3 +448,4 @@ augroup myvimrc
     au!
     au BufWritePost .vim, .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
 augroup END
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
